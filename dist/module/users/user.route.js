@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRoute = void 0;
+const express_1 = __importDefault(require("express"));
+const user_controller_1 = require("./user.controller");
+const auth_1 = __importDefault(require("../../MeddleWare/auth"));
+const route = express_1.default.Router();
+route.get('/AllUsers', (0, auth_1.default)('admin'), user_controller_1.userController.GetAllUsers);
+route.get('/CheckUser', (0, auth_1.default)('user', 'admin'), user_controller_1.userController.CheckUser);
+route.post('/Login', user_controller_1.userController.UserLogin);
+route.post('/Register', user_controller_1.userController.userRegistration);
+route.post('/user/password-reset-email', user_controller_1.userController.ForGetPassEmailSend);
+route.post('/user/passwordChange', user_controller_1.userController.passwordChange);
+route.patch('/userStatus', (0, auth_1.default)('admin'), user_controller_1.userController.updateUerStatus);
+route.patch('/user', (0, auth_1.default)('user', 'admin'), user_controller_1.userController.updateUserData);
+route.patch('/Follow/:id', (0, auth_1.default)('user', 'admin'), user_controller_1.userController.userFollowerManage);
+route.patch('/userRole', (0, auth_1.default)('admin'), user_controller_1.userController.ChangeUserRole);
+route.patch('/usermembership/:id', user_controller_1.userController.Changeusermembership);
+route.patch('/changePassword/:email', user_controller_1.userController.changeUserPasswordWithOldPassword);
+route.delete('/user/:id', (0, auth_1.default)('admin'), user_controller_1.userController.deleteUser);
+exports.UserRoute = route;
